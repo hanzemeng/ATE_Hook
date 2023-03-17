@@ -397,7 +397,35 @@ BOOL APIENTRY DllMain( HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpRese
             return FALSE;
         }
         memcpy((char*)original_first_byte_check_ptr, update_first_byte_check, 9);
+        
+        unsigned long original_color_check_ptr = (unsigned long)Vm60 + 0xF15D;
+        log_file << "original color byte check is at: " << hex << (unsigned long)original_color_check_ptr << endl;
+        if (!VirtualProtect((LPVOID)original_color_check_ptr, 100, PAGE_EXECUTE_READWRITE, &old))
+        {
+            log_file << "can't change protection" << endl;
+            return FALSE;
+        }
+        char update_original_color_check[10] = {0x80, 0xF2, 0x00, 0x80, 0xC2, 0x7F, 0x80, 0xFA, 0x1E, 0x00};
+        memcpy((char*)original_color_check_ptr, update_original_color_check, 9);
+        update_original_color_check[9] = update_original_color_check[8];
+        update_original_color_check[8] = update_original_color_check[7];
+        update_original_color_check[7] = update_original_color_check[6];
+        update_original_color_check[6] = 0x41;
+        original_color_check_ptr = (unsigned long)Vm60 + 0xF172;
+        memcpy((char*)original_color_check_ptr, update_original_color_check, 10);
+        original_color_check_ptr = (unsigned long)Vm60 + 0xF18D;
+        memcpy((char*)original_color_check_ptr, update_original_color_check, 10);
 
+        unsigned long original_color_check_2_ptr = (unsigned long)Vm60 + 0xF0A5;
+        log_file << "original color byte check 2 is at: " << hex << (unsigned long)original_color_check_2_ptr << endl;
+        if (!VirtualProtect((LPVOID)original_color_check_2_ptr, 7, PAGE_EXECUTE_READWRITE, &old))
+        {
+            log_file << "can't change protection" << endl;
+            return FALSE;
+        }
+        char update_original_color_check_2[7] = { 0x34, 0x00, 0x04, 0x7F, 0x42, 0x3C, 0x1E };
+        memcpy((char*)original_color_check_2_ptr, update_original_color_check_2, 7);
+        
         unsigned long original_selection_text_ptr = (unsigned long)Vm60 + 0x1E08C;
         log_file << "original selection text function is at: " << hex << (unsigned long)original_selection_text_ptr << endl;
         write_address(instuction_jump + 1, (unsigned long)call_translate_selection_text);
