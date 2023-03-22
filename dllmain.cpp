@@ -35,8 +35,8 @@ unordered_map<vector<unsigned char>, vector<unsigned char>, VectorHasher> dictio
 bool setup_dictionary()
 {
     string folder_name = "\Translation\\";
-    vector<string> file_jp = { "common-jp", "0-1-jp", "0-2-jp", "1-jp", "8-jp" };
-    vector<string> file_cn = { "common-cn", "0-1-cn", "0-2-cn", "1-cn", "8-cn" };
+    vector<string> file_jp = { "common-jp", "0-1-jp", "0-2-jp", "1-jp", "2-jp", "3-jp", "4-jp", "5-jp", "6-jp", "7-jp", "8-jp", "9-jp", "10-jp", "11-jp", "12-jp", "13-jp", "14-jp", "15-jp", "16-jp", "17-jp", "TE-jp"};
+    vector<string> file_cn = { "common-cn", "0-1-cn", "0-2-cn", "1-cn", "2-cn", "3-cn", "4-cn", "5-cn", "6-cn", "7-cn", "8-cn", "9-cn", "10-cn", "11-cn", "12-cn", "13-cn", "14-cn", "15-cn", "16-cn", "17-cn", "TE-cn" };
 
     for (int i = 0; i < file_cn.size(); i++)
     {
@@ -46,7 +46,7 @@ bool setup_dictionary()
         if (!in_file_jp.is_open() || !in_file_cn.is_open())
         {
             log_file << "failed to open translation files" << endl;
-            return false;
+            continue;
         }
 
         char temp_char;
